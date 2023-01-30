@@ -16,10 +16,16 @@ class Main extends React.Component {
     }
 
     componentDidMount(str) {
+        this.setState({loading: true})
         fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=new`)
         // fetch(`https://www.omdbapi.com/?apikey=16643dec&s=new`)
         .then(response => response.json())
         .then(data => this.setState({movies: data.Search}))
+        .then(this.setState({loading: false}))
+        .catch(err => {
+            console.error(err)
+            this.setState({loading: false})
+        })
     }
 
     searchMovies = (str, type = 'all') => {
@@ -29,6 +35,10 @@ class Main extends React.Component {
         .then(response => response.json())
         .then(data => this.setState({movies: data.Search}))
         .then(this.setState({loading: false}))
+        .catch(err => {
+            console.error(err)
+            this.setState({loading: false})
+        })
     }
 
     render () {
